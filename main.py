@@ -8,7 +8,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 # 🔑 Furtuulee Keetii Asitti Galchi
 TELEGRAM_TOKEN = "8057417384:AAGjPc4PSWolsQ4P1EdQgx8eQNpcvnFy8qo"
-GEMINI_TOKEN = "AQ.Ab8RN6LSDGu7I1FdwN65cdVfOgT7Rema22V_HTZGFYXWYqPM1g"
+GEMINI_TOKEN = "AQ.Ab8RN6LHbux6EYQKCo9bjsCU6cR3BwbwrBvwr-_yfUp9B-gl5Q"
 
 # Gemini Client qopheessuu
 gemini_client = genai.Client(api_key=GEMINI_TOKEN)
