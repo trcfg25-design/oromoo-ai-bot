@@ -1,76 +1,45 @@
 import os
 import asyncio
-import threading
 from flask import Flask
-from telegram import Update
-from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
+from telegram.ext import Application, CommandHandler, MessageHandler, filters
 from google import genai
 
-# --- CONFIGURATION ---
-# Token Telegram Bot fi API Key Gemini tajaajila kee irraa dubbisa
-TOKEN = os.getenv("TELEGRAM_TOKEN", "8057417384:AAGjPc4PSWolsQ4P1EdQgx8eQNpcvnFy8qo")
-
-# --- CONFIGURATION ---
-# Token Telegram Bot fi API Key Gemini kallattiin hidhuu
+# Configuration
 TOKEN = "8057417384:AAGjPc4PSWolsQ4P1EdQgx8eQNpcvnFy8qo"
 GEMINI_API_KEY = "AQ.Ab8RN6LHbux6EYQKCo9bjsCU6cr3BwbwrBvwr-_yfUp9B-g15Q"
+
 app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return "Oromoo AI Bot is Running Live!"
+    return "Oromoo AI Bot is Running!"
 
-# --- GEMINI AI INTEGRATION ---
-# Tajaajila Gemini isa haaraa (google-genai) calqabsiisuu
+# AI Logic
 ai_client = genai.Client(api_key=GEMINI_API_KEY)
 
-async def get_gemini_response(user_text: str) -> str:
-    try:
-        # Mudela gemini-2.5-flash ykn gemini-1.5-flash haala qubsee kanaan waama
-        response = ai_client.models.generate_content(
-            model='gemini-2.5-flash',
-            contents=user_text,
-        )
-        return response.text
-    except Exception as e:
-        return f"Digoggora uumameera: {str(e)}"
+async def start(update, context):
+    await update.message.reply_text("Akkam! Ani Oromoo AI Bot.")
 
-# --- TELEGRAM BOT HANDLERS ---
-async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("Akkam, Ani Oromoo AI Bot dha! Maal siif haa gargaaru?")
-
-async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def handle_message(update, context):
     user_text = update.message.text
-    # Ergaa namaa fuudhee gara Gemini tajaajilaatti erga
-    ai_response = await get_gemini_response(user_text)
-    await update.message.reply_text(ai_response)
+    response = ai_client.models.generate_content(model='gemini-2.5-flash', contents=user_text)
+    await update.message.reply_text(response.text)
 
-# --- BOT STARTUP FUNCTION ---
-def run_bot():
-    # Dogoggora 'RuntimeError: There is no current event loop' furuuf:
-    try:
-        loop = asyncio.get_event_loop()
-    except RuntimeError:
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-
-    # Application Telegram Bot ijaaruu
+# Haala sirreeffame: Asyncio-n Bot fi Flask walitti makuu
+async def main():
     application = Application.builder().token(TOKEN).build()
-
-    # Ajajoota (Commands) itti hidhuu
-    application.add_handler(CommandHandler("start", start_command))
+    application.add_handler(CommandHandler("start", start))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
-
-    print("Telegram Bot jalqabeera...")
-    application.run_polling()
-
-# --- MAIN EXECUTION ---
-if __name__ == '__main__':
-    # Telegram Bot sarara addaa (Thread) irratti jalqabsiisuu
-    bot_thread = threading.Thread(target=run_bot)
-    bot_thread.daemon = True
-    bot_thread.start()
-
-    # Flask Port Render irratti banuun hojjechiisuu
-    port = int(os.getenv("PORT", 5000))
+    
+    # Bot dammaqsuu
+    await application.initialize()
+    await application.start()
+    await application.updater.start_polling()
+    
+    # Flask app run gochuu (Blocking call, kanaaf booda kaa'a)
+    # Render irratti 'PORT' fayyadamuu qabna
+    port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
+
+if __name__ == '__main__':
+    asyncio.run(main())
