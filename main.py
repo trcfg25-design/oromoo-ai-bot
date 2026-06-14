@@ -9,9 +9,11 @@ from google import genai
 # --- CONFIGURATION ---
 # Token Telegram Bot fi API Key Gemini tajaajila kee irraa dubbisa
 TOKEN = os.getenv("TELEGRAM_TOKEN", "8057417384:AAGjPc4PSWolsQ4P1EdQgx8eQNpcvnFy8qo")
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "AQ.Ab8RN6LHbux6EYQKCo9bjsCU6cR3BwbwrBvwr-_yfUp9B-gl5Q",)
 
-# Flask Application ijaaruu (Render akka ittiin koodii kee dammaqsuuf)
+# --- CONFIGURATION ---
+# Token Telegram Bot fi API Key Gemini kallattiin hidhuu
+TOKEN = "8057417384:AAGjPc4PSWolsQ4P1EdQgx8eQNpcvnFy8qo"
+GEMINI_API_KEY = "AQ.Ab8RN6LHbux6EYQKCo9bjsCU6cr3BwbwrBvwr-_yfUp9B-g15Q"
 app = Flask(__name__)
 
 @app.route('/')
