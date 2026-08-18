@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const { GoogleGenAI } = require('@google/genai');
+const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 const app = express();
 app.use(cors());
@@ -9,10 +9,9 @@ app.use(express.json());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-// API Key kee isa pottalii irraa fudhatte
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || 'AQ.Ab8RN6Lwol723QhJho8gnogLmroeJu4CakBtjjZzzwygT_J1-Q';
 
-const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY.trim() });
+const genAI = new GoogleGenerativeAI(GEMINI_API_KEY.trim());
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
@@ -28,13 +27,14 @@ app.post('/api/chat', async (req, res) => {
 
     const lastUserMessage = messages[messages.length - 1].content;
 
-    const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
-      contents: lastUserMessage,
-    });
+    // Model Gemini 1.5 Flash fayyadamuu
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const result = await model.generateContent(lastUserMessage);
+    const response = await result.response;
+    const text = response.text();
 
-    if (response && response.text) {
-      res.json({ reply: response.text });
+    if (text) {
+      res.json({ reply: text });
     } else {
       res.status(500).json({ reply: 'Deebii argachuu hin dandaamne.' });
     }
