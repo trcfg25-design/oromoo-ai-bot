@@ -108,7 +108,7 @@
       return msgDiv;
     }
 
-    chatForm.addEventListener('submit', async (e) => {
+    chatForm.addEventListener('submit', async function(e) {
       e.preventDefault();
       const text = userInput.value.trim();
       if (!text) return;
@@ -133,11 +133,11 @@
           appendMessage(data.reply, 'bot');
           messageHistory.push({ role: 'assistant', content: data.reply });
         } else {
-          appendMessage('Dogoggora: ' + (data.reply || 'API Key yookiin model irratti rakkootu jira.'), 'bot');
+          appendMessage('Dogoggora: ' + JSON.stringify(data), 'bot');
         }
       } catch (err) {
         chatBox.removeChild(loadingDiv);
-        appendMessage('Server waliin qunnamtii uumuun hin danda'amne.', 'bot');
+        appendMessage('Server waliin qunnamtii uumuun hin dandaamne.', 'bot');
       }
     });
   </script>
