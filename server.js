@@ -9,7 +9,7 @@ app.use(express.json());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY || 'AQ.Ab8RN6Lwol723QhJho8gnogLmroeJu4CakBtjjZzzwygT_J1-Q';
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY || 'AQ.Ab8RN6K148576Sq8rl7rZyodQyYDolQnz9EUjEZmLoH1Wbrxug';
 
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY.trim());
 
