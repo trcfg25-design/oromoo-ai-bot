@@ -6,12 +6,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Folder public dhiheessuuf
 app.use(express.static(path.join(__dirname, 'public')));
 
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY || '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';
 
-// Root URL irratti index.html akka banamu gochuuf
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
