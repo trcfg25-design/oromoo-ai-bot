@@ -27,8 +27,8 @@ app.post('/api/chat', async (req, res) => {
 
     const lastUserMessage = messages[messages.length - 1].content;
 
-    // Model Gemini 1.5 Flash fayyadamuu
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    // Maqaa model sirrii 'gemini-1.5-flash-latest' ykn 'gemini-2.5-flash' fayyadamuu
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash-latest' });
     const result = await model.generateContent(lastUserMessage);
     const response = await result.response;
     const text = response.text();
