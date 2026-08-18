@@ -9,7 +9,7 @@ app.use(express.json());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY || 'AQ.Ab8RN6K148576Sq8rl7rZyodQyYDolQnz9EUjEZmLoH1Wbrxug';
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY || 'AQ.Ab8RN6IEs1EECR07-orWRZkQHW6ecrLleaZQ_itvX62iItL_Ig';
 
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY.trim());
 
@@ -27,8 +27,8 @@ app.post('/api/chat', async (req, res) => {
 
     const lastUserMessage = messages[messages.length - 1].content;
 
-    // Maqaa model sirrii 'gemini-1.5-flash-latest' ykn 'gemini-2.5-flash' fayyadamuu
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash-latest' });
+    // Maqaa model sirrii 'gemini-1.5-flash' fayyadamuu
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
     const result = await model.generateContent(lastUserMessage);
     const response = await result.response;
     const text = response.text();
