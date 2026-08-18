@@ -8,7 +8,7 @@ app.use(express.json());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY || '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';
+const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY || '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';
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
@@ -31,7 +31,7 @@ app.post('/api/chat', async (req, res) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: 'google/gemma-2-9b-it:free',
+        model: 'meta-llama/llama-3.2-1b-instruct:free',
         messages: messages
       })
     });
