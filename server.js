@@ -31,7 +31,7 @@ app.post('/api/chat', async (req, res) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: 'meta-llama/llama-3.2-1b-instruct:free',
+        model: 'qwen/qwen-2.5-7b-instruct:free',
         messages: messages
       })
     });
