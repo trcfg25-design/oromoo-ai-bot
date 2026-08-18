@@ -5,8 +5,13 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// API Key kee kallattiidhaan bakka kanaan gadii kana jalatti galchi
+// API Key kee apostrophe ('...') keessatti bakka 'sk-or-v1-...' jedhu jalatti paste godhi
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY || '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';
+
+// Fuula duraa (Root route) akka "Cannot GET /" hin jenneef
+app.get('/', (req, res) => {
+  res.send('Bonsa AI Backend is running successfully!');
+});
 
 app.post('/api/chat', async (req, res) => {
   try {
